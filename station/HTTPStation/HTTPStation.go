@@ -2,7 +2,7 @@ package main
 
 import (
     "encoding/json"
-    "github.com/DGHeroin/logbus/b"
+    "github.com/DGHeroin/logbus/bus"
     "github.com/DGHeroin/logbus/utils"
     "io/ioutil"
     "log"
@@ -48,7 +48,7 @@ func main() {
             payload = data
         }
         // decode payload
-        var buffer []b.Data
+        var buffer []bus.Data
         if err := json.Unmarshal([]byte(payload), &buffer); err != nil {
             JSONResponse(w, 200, map[string]interface{}{
                 "code": 1001,

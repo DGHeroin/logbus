@@ -1,7 +1,6 @@
 package bus
 
 import (
-    "github.com/DGHeroin/logbus/b"
     "github.com/DGHeroin/logbus/utils"
     "sync"
     "time"
@@ -9,17 +8,17 @@ import (
 
 type (
     Driver interface {
-        Add(data b.Data)
-        Adds(...b.DataOption)
+        Add(data Data)
+        Adds(...DataOption)
         Flush() error
         Close() error
     }
     driver struct {
         car         Car
         bufferMutex sync.RWMutex
-        buffer      []b.Data
+        buffer      []Data
         cacheMutex  sync.RWMutex
-        cacheBuffer [][]b.Data
+        cacheBuffer [][]Data
         option      *options
     }
     options struct {
@@ -31,15 +30,15 @@ type (
     Options func(o *options)
 )
 
-func (d *driver) Adds(opts ...b.DataOption) {
-    data := b.Data{}
+func (d *driver) Adds(opts ...DataOption) {
+    data := Data{}
     for _, opt := range opts {
         opt(&data)
     }
     d.Add(data)
 }
 
-func (d *driver) Add(data b.Data) {
+func (d *driver) Add(data Data) {
     if data.Properties != nil {
         if _, ok := data.Properties["time"]; !ok {
             data.Properties["time"] = utils.GetTimeString()
@@ -104,7 +103,7 @@ func (d *driver) growCacheBuffer(fillToFull bool) {
         }
     }
     for i := sz; i < d.option.cacheCapacity; i++ {
-        d.cacheBuffer = append(d.cacheBuffer, make([]b.Data, 0, d.option.batchSize))
+        d.cacheBuffer = append(d.cacheBuffer, make([]Data, 0, d.option.batchSize))
     }
 }
 func NewDriver(car Car, opts ...Options) Driver {
@@ -117,7 +116,7 @@ func NewDriver(car Car, opts ...Options) Driver {
         option: o,
     }
     // 初始化 buffer
-    d.buffer = make([]b.Data, 0, d.option.batchSize)
+    d.buffer = make([]Data, 0, d.option.batchSize)
     d.growCacheBuffer(true)
     if d.option.interval > 0 {
         go func() { // auto flush

@@ -2,7 +2,6 @@ package tcpcar
 
 import (
     "encoding/json"
-    "github.com/DGHeroin/logbus/b"
     "github.com/DGHeroin/logbus/bus"
     "github.com/DGHeroin/logbus/utils"
     "net"
@@ -25,7 +24,7 @@ type (
     Options func(*options)
 )
 
-func (t *TCPCar) Go(buffer []b.Data) error {
+func (t *TCPCar) Go(buffer []bus.Data) error {
     t.wg.Add(1)
     defer t.wg.Done()
     t.mu.Lock()

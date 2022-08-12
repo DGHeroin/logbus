@@ -3,7 +3,7 @@ package main
 import (
     "bufio"
     "encoding/json"
-    "github.com/DGHeroin/logbus/b"
+    "github.com/DGHeroin/logbus/bus"
     "io"
     "log"
     "net"
@@ -24,7 +24,7 @@ func main() {
             dec := json.NewDecoder(buf)
             defer conn.Close()
             for {
-                var buffer []b.Data
+                var buffer []bus.Data
                 if err := dec.Decode(&buffer); err != nil {
                     if err == io.EOF {
                         break

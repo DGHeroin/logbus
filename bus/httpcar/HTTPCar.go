@@ -3,7 +3,6 @@ package httpcar
 import (
     "bytes"
     "encoding/json"
-    "github.com/DGHeroin/logbus/b"
     "github.com/DGHeroin/logbus/bus"
     "github.com/DGHeroin/logbus/utils"
     "io/ioutil"
@@ -32,7 +31,7 @@ func (c *HTTPCar) WaitFinish(timeout time.Duration) error {
 }
 
 // 发车
-func (c *HTTPCar) Go(buffer []b.Data) error {
+func (c *HTTPCar) Go(buffer []bus.Data) error {
     c.wg.Add(1)
     defer c.wg.Done()
 

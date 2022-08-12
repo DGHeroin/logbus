@@ -1,4 +1,4 @@
-package b
+package bus
 
 type (
     Data struct {
